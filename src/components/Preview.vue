@@ -39,8 +39,12 @@
 
 <script>
 import Wcard from "./Wcard.vue";
+import { collection, getDocs, doc, setDoc, addDoc, deleteDoc, onSnapshot } from "firebase/firestore";
+import { db } from './../firebase/index.js';
 
 export default {
+
+
   name: "Preview",
 
   components: {
@@ -48,13 +52,14 @@ export default {
   },
 
   methods: {
-    addWish() {
-      const newWish = {
-        id: 5,
-        title: this.newWish,
-        selected: false,
-      }
-      this.wishes.push(newWish)
+    async addWish() {
+
+      const docRef = await addDoc(collection(db, "wishes"), {
+      title: this.newWish,
+      selected: false,
+      });
+      this.newWish = ""; // Clear the input field
+
     },
 
     handleWishSelected(index, selected) {
@@ -63,33 +68,46 @@ export default {
       
     },
 
-    deleteSelected(){
-      for (let i = this.wishes.length - 1; i >= 0; i--){
-        if (this.wishes[i].selected === true){
-          this.wishes.splice(i, 1)
-        }
-      }
-      
+    async deleteSelected(){
+
+      const docDel = await deleteDoc(doc(db, "wishes", this.wishes[0].id));
+
     },
+
   },
 
   data() {
     return {
       newWish: '',
-      wishes: [
-        {
-          id: 1,
-          title: 'Lamp',
-          selected: false,
-        },
-        
-      ]
+      wishes: [],
     };
   },
 
   
+  // FIREBASE 
+  
+  created() {
+    onSnapshot(collection(db, "wishes"), (querySnapshot) => {
+      this.wishes = [];
+      querySnapshot.forEach((doc) => {
+        let wishesDb = 
+        {
+          id: doc.id,
+          title: doc.data().title,
+          selected: doc.data().selected
+        }
+        
+        this.wishes.push(wishesDb)
+        
+      });
+    });
+  },
+
+
 
 };
+
+
 </script>
 
 <style scoped lang="scss">
