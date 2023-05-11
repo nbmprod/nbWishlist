@@ -1,46 +1,75 @@
 <template>
   <main class="preview">
     <div class="container">
-      <form
-        class="addWish"
-        @submit.prevent="addWish"
-      >
-        <input
-          v-model="this.newWish"
-          type="text"
-          class="addWish__title"
-        />
-        <button
-          type="submit"
-          class="addWish__submit"
-          :disabled="!this.newWish"  
-        >
-          Add Wish
-        </button>
-      </form>
-      <div
-        class="preview_wrapper">
-        <Wcard
-        :wishes="wishes"
-        @wish-selected="handleWishSelected"         
-        />
+      <div class="preview__blocks">
+        <div class="preview__main">
+          <div class="addWish">
+            <form
+            class="addWish__form"
+            @submit.prevent="addWish"
+          >
+            <input
+              v-model="this.newWish.title"
+              type="text"
+              class="addWish__title"
+              placeholder="title"
+            />
+            <input
+              v-model="this.newWish.disc"
+              type="text"
+              class="addWish__disc"
+              placeholder="disc"
+            />
+            <input
+              v-model="this.newWish.link"
+              type="text"
+              class="addWish__link"
+              placeholder="link"
+            />
+            <button
+              type="submit"
+              class="addWish__submit"
+              :disabled="!this.newWish"  
+            >
+              Add Wish
+            </button>
+          </form>
+          </div>
+          <div
+            class="preview_wrapper">
+            <Wcard
+            :wishes="wishes"
+            :selectedWish="selectedWish"
+            @wish-selected="handleWishSelected"         
+            />
+          </div>
+          <div class="preview__delete">
+            <button
+              class="preview__delete-btn"
+              @click="deleteSelected"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <div class="preview__view">
+          <Wpage
+          :wishes="wishes"
+          :selectedWish="selectedWish"
+          />
+        </div>
       </div>
-      <div class="preview__delete">
-        <button
-          class="preview__delete-btn"
-          @click="deleteSelected"
-        >
-          Delete selected
-        </button>
-      </div>
+      
+      
     </div>
   </main>
 </template>
 
 <script>
 import Wcard from "./Wcard.vue";
-import { collection, getDocs, doc, setDoc, addDoc, deleteDoc, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, addDoc, deleteDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from './../firebase/index.js';
+import Wpage from "./Wpage.vue";
 
 export default {
 
@@ -49,28 +78,34 @@ export default {
 
   components: {
     Wcard,
-  },
+    Wpage
+},
 
   methods: {
     async addWish() {
 
       const docRef = await addDoc(collection(db, "wishes"), {
-      title: this.newWish,
-      selected: false,
+      title: this.newWish.title,
+      disc: this.newWish.disc,
+      link: this.newWish.link,
+      img: 'https://picsum.photos/200',
       });
-      this.newWish = ""; // Clear the input field
+      this.newWish.title = '';
+      this.newWish.disc = '';
+      this.newWish.link = ''; 
 
     },
 
-    handleWishSelected(index, selected) {
-      const wish = this.wishes[index]
-      wish.selected = selected;
+    handleWishSelected(index) {
+    
+      this.selectedWish = this.wishes[index]
       
     },
 
     async deleteSelected(){
 
-      const docDel = await deleteDoc(doc(db, "wishes", this.wishes[0].id));
+      const docDel = await deleteDoc(doc(db, "wishes", this.selectedWish.id));
+      this.selectedWish = undefined;
 
     },
 
@@ -78,8 +113,14 @@ export default {
 
   data() {
     return {
-      newWish: '',
+      newWish: {
+        title: '',
+        disc: '',
+        link: '',
+        img: '',
+      },
       wishes: [],
+      selectedWish: undefined,
     };
   },
 
@@ -94,7 +135,9 @@ export default {
         {
           id: doc.id,
           title: doc.data().title,
-          selected: doc.data().selected
+          disc: doc.data().disc,
+          link: doc.data().link,
+          img: doc.data().img,
         }
         
         this.wishes.push(wishesDb)
@@ -118,12 +161,26 @@ export default {
   flex-wrap: wrap;
 }
 
+.preview__blocks{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 2em;
+  
+}
+
 
 .addWish {
-  margin: 0 0 3em 0;
   display: flex;
   justify-content: center;
+  
+}
+
+.addWish__form {
+  margin: 0 0 3em 0;
+  display: flex;
+  flex-direction: column;
   gap: 1em;
+  width: fit-content;
 }
 
 .preview__delete{

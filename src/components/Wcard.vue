@@ -1,9 +1,8 @@
 <template>
     <div 
-        class="wcard"
-        :class="{ 'wcard_selected': wish.selected }"
         v-for="(wish, index) in wishes"
-        @click="$emit('wishSelected', index, !wish.selected)"   
+        :class="['wcard', { 'wcard_selected': isSelectedWish(wish) }]"
+        @click="$emit('wishSelected', index)"   
     >
         <p class="wcard__text">
             {{ wish.title }}
@@ -18,15 +17,23 @@
 
     props:{
         wishes:{
-            type: Array,
+          type: Array,
         },
-        selectedWishes:{
-            type: Array,
+
+        selectedWish:{
+          type: Object
         },
+  
     },
 
     emits: ['wishSelected'],
 
+
+    methods: {
+      isSelectedWish(wish) {
+        return this.selectedWish && this.selectedWish.id === wish.id;
+      },
+    },
 
   }
   
@@ -53,7 +60,7 @@
   }
 
   .wcard_selected{
-    background-color: red;
+    background-color: gray;
     transform: translateY(-25px);
     
   }
