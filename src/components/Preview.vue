@@ -14,7 +14,7 @@
           <details class="addWish__details">
             <summary class="addWish__summary">
               <div class="addWish__icon">
-                <svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
+                <img src="./../assets/icons/plus-svgrepo-com.svg" alt="addmore" class="addwish__icon-img">
               </div>
             </summary>
             <div class="addWish">
@@ -47,7 +47,10 @@
                 >
                   Add Wish
                 </button>
-                <div class="preview__delete">
+              </form>
+              </div>
+          </details>
+          <div class="preview__delete">
                   <button
                     class="preview__delete-btn"
                     @click="deleteSelected"
@@ -55,9 +58,6 @@
                     Delete
                   </button>
                 </div>
-              </form>
-              </div>
-          </details>
         </div>
         <div class="preview__view">
           <Wpage
@@ -188,12 +188,13 @@ export default {
 
 .addWish__details{
   margin: 2em 0 0 0;
+  overflow: auto;
 }
 
 .addWish__summary{
   list-style: none;
   cursor: pointer;
-
+  width: 50px;
 
   &::-webkit-details-marker {
     display: none;
@@ -210,13 +211,19 @@ export default {
 }
 
 .addWish__icon{
-  border: 2px solid black;
+  // border: 2px solid black;
   width: fit-content;
   margin: 0;
   height: fit-content;
   padding: 10px;
-  border-radius: 45%;
-  transform: rotate(5deg);
+  // border-radius: 45%;
+  // transform: rotate(5deg);
+  box-sizing: border-box;
+}
+
+.addwish__icon-img{
+  max-width: 50px;
+  box-sizing: border-box;
 }
 
 .preview__delete{
