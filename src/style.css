@@ -1,18 +1,18 @@
+@import './assets/fonts/fonts.css';
+
 :root {
-  --grey: #4b4b4b;
-  --grey-2: #353535;
-  --grey-3: #898989;
-  --pale-blue:#c4cbda;
-  --beige:#dad3c4;
-  --black:#252525;
-  --red:#d80000;
-  --mint:#c4dad3;
+  --back: var(--beige);
+  --hard: #146C94;
+  --medium:#19A7CE;
+  --soft: #AFD3E2;
+  --beige: #F6F1F1;
+
   --error: #dab0b0;
   --success: var(--blue);
 }
 
 * {
-  font-family: "Helvetica", cursive;
+  font-family: 'Raleway', sans-serif;
 }
 
 #app{
@@ -22,7 +22,7 @@
 html, body {
   margin: 0;
   height: 100%;
-  background-color: #ffffff;
+  background-color: var(--back);
 }
 
 body {

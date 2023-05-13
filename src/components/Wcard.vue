@@ -1,13 +1,23 @@
 <template>
+  <div
+    class="wcard__container"
+    :class="['wcard', { 'wcard_selected': isSelectedWish(wish) }]"
+    v-for="(wish, index) in wishes"
+    @click="$emit('wishSelected', index)"
+  >
     <div 
-        v-for="(wish, index) in wishes"
-        :class="['wcard', { 'wcard_selected': isSelectedWish(wish) }]"
-        @click="$emit('wishSelected', index)"   
-    >
+        
+        
+        
+      >
         <p class="wcard__text">
             {{ wish.title }}
         </p>
     </div>
+  </div>
+      
+    
+    
 </template>
   
 <script>
@@ -43,31 +53,61 @@
  
   .wcard{
     background-color: none;
-    height: 150px;
-    width: 150px;
-    border: 2px solid black;
-    border-radius: 15%;
+    // border: 2px solid black;
+    // border-radius: 45%;
+    // height: 150px;
+    // width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: linear 200ms transform;
+    height: 100%;
+    // transform: rotate(10deg);
+
+    // &:hover{
+    //     transform: translateY(-25px);
+    // }
+
+  }
+
+  .wcard__container{
+    position: relative;
+    // border: 2px solid black;
+    // border-radius: 45%;
+    height: 150px;
+    width: 150px;
+    transition: linear 2000ms transform;
+    cursor: pointer;
 
     &:hover{
-        transform: translateY(-25px);
+        transform: rotate(50deg);
     }
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 2px solid black;
+      border-radius: 45%;      
+      transform: rotate(5deg);
+      z-index: 1;
+}
+
 
   }
 
   .wcard_selected{
     background-color: gray;
-    transform: translateY(-25px);
-    
+    border-radius: 45%;      
   }
 
   .wcard__text{
+    font-weight: 600;
 
   }
 
 </style>
-  

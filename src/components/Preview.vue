@@ -3,38 +3,6 @@
     <div class="container">
       <div class="preview__blocks">
         <div class="preview__main">
-          <div class="addWish">
-            <form
-            class="addWish__form"
-            @submit.prevent="addWish"
-          >
-            <input
-              v-model="this.newWish.title"
-              type="text"
-              class="addWish__title"
-              placeholder="title"
-            />
-            <input
-              v-model="this.newWish.disc"
-              type="text"
-              class="addWish__disc"
-              placeholder="disc"
-            />
-            <input
-              v-model="this.newWish.link"
-              type="text"
-              class="addWish__link"
-              placeholder="link"
-            />
-            <button
-              type="submit"
-              class="addWish__submit"
-              :disabled="!this.newWish"  
-            >
-              Add Wish
-            </button>
-          </form>
-          </div>
           <div
             class="preview_wrapper">
             <Wcard
@@ -43,19 +11,58 @@
             @wish-selected="handleWishSelected"         
             />
           </div>
-          <div class="preview__delete">
-            <button
-              class="preview__delete-btn"
-              @click="deleteSelected"
-            >
-              Delete
-            </button>
-          </div>
+          <details class="addWish__details">
+            <summary class="addWish__summary">
+              <div class="addWish__icon">
+                <svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28,14H18V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v10H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h10v10c0,1.104,0.896,2,2,2  s2-0.896,2-2V18h10c1.104,0,2-0.896,2-2S29.104,14,28,14z"/></svg>
+              </div>
+            </summary>
+            <div class="addWish">
+                <form
+                class="addWish__form"
+                @submit.prevent="addWish"
+                >
+                <input
+                  v-model="this.newWish.title"
+                  type="text"
+                  class="addWish__title"
+                  placeholder="title"
+                />
+                <input
+                  v-model="this.newWish.disc"
+                  type="text"
+                  class="addWish__disc"
+                  placeholder="disc"
+                />
+                <input
+                  v-model="this.newWish.link"
+                  type="text"
+                  class="addWish__link"
+                  placeholder="link"
+                />
+                <button
+                  type="submit"
+                  class="addWish__submit"
+                  :disabled="!this.newWish"  
+                >
+                  Add Wish
+                </button>
+                <div class="preview__delete">
+                  <button
+                    class="preview__delete-btn"
+                    @click="deleteSelected"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </form>
+              </div>
+          </details>
         </div>
         <div class="preview__view">
           <Wpage
-          :wishes="wishes"
-          :selectedWish="selectedWish"
+            :wishes="wishes"
+            :selectedWish="selectedWish"
           />
         </div>
       </div>
@@ -98,7 +105,11 @@ export default {
 
     handleWishSelected(index) {
     
-      this.selectedWish = this.wishes[index]
+      if (this.selectedWish === this.wishes[index]) {
+        this.selectedWish = undefined; // Unselect if already selected
+      } else {
+        this.selectedWish = this.wishes[index]; // Select the clicked wish
+      }
       
     },
 
@@ -168,11 +179,26 @@ export default {
   
 }
 
-
 .addWish {
   display: flex;
   justify-content: center;
+  margin: 2em 0 0 0;
   
+}
+
+.addWish__details{
+  margin: 2em 0 0 0;
+}
+
+.addWish__summary{
+  list-style: none;
+  cursor: pointer;
+
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
 }
 
 .addWish__form {
@@ -181,6 +207,16 @@ export default {
   flex-direction: column;
   gap: 1em;
   width: fit-content;
+}
+
+.addWish__icon{
+  border: 2px solid black;
+  width: fit-content;
+  margin: 0;
+  height: fit-content;
+  padding: 10px;
+  border-radius: 45%;
+  transform: rotate(5deg);
 }
 
 .preview__delete{
