@@ -29,10 +29,11 @@
 
   .header__text{
     color: var(--hard);
-    font-family: 'DM Serif Display', serif;;
-    font-size: 70px;
+    // font-family: 'Merriweather', serif;
+    font-family: 'Cabin', sans-serif;
+    font-size: 65px;
     margin: 0.1em 0 1em 0;
-    letter-spacing: 5px;
+    letter-spacing: 0;
   }
 
 

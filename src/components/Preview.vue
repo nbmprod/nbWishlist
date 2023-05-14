@@ -11,6 +11,7 @@
             @wish-selected="handleWishSelected"         
             />
           </div>
+          <div class="preview__add">
           <details class="addWish__details">
             <summary class="addWish__summary">
               <div class="addWish__icon">
@@ -28,9 +29,9 @@
                   class="addWish__title"
                   placeholder="title"
                 />
-                <input
+                <textarea
                   v-model="this.newWish.disc"
-                  type="text"
+                  type=""
                   class="addWish__disc"
                   placeholder="disc"
                 />
@@ -57,7 +58,8 @@
                   >
                     Delete
                   </button>
-                </div>
+          </div>
+        </div>
         </div>
         <div class="preview__view">
           <Wpage
@@ -65,6 +67,7 @@
             :selectedWish="selectedWish"
           />
         </div>
+        
       </div>
       
       
@@ -95,7 +98,7 @@ export default {
       title: this.newWish.title,
       disc: this.newWish.disc,
       link: this.newWish.link,
-      img: 'https://picsum.photos/200',
+      img: 'https://picsum.photos/300',
       });
       this.newWish.title = '';
       this.newWish.disc = '';
@@ -175,6 +178,7 @@ export default {
 .preview__blocks{
   display: grid;
   grid-template-columns: 50% 50%;
+  // grid-template-rows: 300px 1fr;
   gap: 2em;
   
 }

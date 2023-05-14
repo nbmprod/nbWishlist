@@ -49,9 +49,8 @@
   }
 
   .container {
-  max-width: 1110px;
-  margin: 0 auto;
-  box-sizing: border-box;
+    max-width: 1110px;
+    margin: 0 auto;
   }
 
   
